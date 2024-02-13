@@ -13,17 +13,8 @@ const getElementsFromForm = () => {
   const password = form.querySelector<HTMLInputElement>('input[name=password]');
   const repasswd = form.querySelector<HTMLInputElement>('input[name=repasswd]');
   const terms = form.querySelector<HTMLInputElement>('input[name=terms]');
-  const button = form.querySelector('.btn');
 
-  if (
-    !form ||
-    !inputName ||
-    !inputEmail ||
-    !password ||
-    !repasswd ||
-    !terms ||
-    !button
-  )
+  if (!form || !inputName || !inputEmail || !password || !repasswd || !terms)
     throw new Error('Core elements not found');
 
   return {
@@ -33,7 +24,6 @@ const getElementsFromForm = () => {
     password,
     repasswd,
     terms,
-    button,
   };
 };
 
@@ -58,7 +48,7 @@ const removeFieldErrorText = (field: HTMLInputElement) => {
 };
 
 const init = () => {
-  const { form, inputName, inputEmail, password, repasswd, terms, button } =
+  const { form, inputName, inputEmail, password, repasswd, terms } =
     getElementsFromForm();
   form.setAttribute('novalidate', 'true');
 
@@ -96,23 +86,36 @@ const init = () => {
     };
 
     const targetinput = e.target as HTMLInputElement;
-    console.log('Data', data);
     try {
       const res = SignUpSchema.parse(data);
+      console.log(res);
       removeFieldErrorText(targetinput);
-      button?.addEventListener(
-        'click',
-        () => {
-          submitViaAPI(res);
-        },
-        { once: true },
-      );
     } catch (err: any) {
       const getErrorForInput = (input: string) => {
         return err.flatten().fieldErrors[input] ?? null;
       };
       removeFieldErrorText(targetinput);
       createErrorText(targetinput, getErrorForInput(targetinput.name));
+    }
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    type SignUpForm = z.infer<typeof SignUpSchema>;
+
+    const data: SignUpForm = {
+      inputName: inputName.value,
+      inputEmail: inputEmail.value,
+      password: password.value,
+      repasswd: repasswd.value,
+      terms: terms.checked,
+    };
+    try {
+      const res = SignUpSchema.parse(data);
+      submitViaAPI(res);
+    } catch (err: any) {
+      console.log('eror when submitting');
     }
   });
 
