@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+    <link rel="stylesheet" href="./css/index.css"/>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form">
+        <form>
+          <p><i class='bx bxs-user'></i> First Name</p>
+          <input type="text" name="inputName">
+          <p><i class='bx bxs-envelope' ></i> e-mail</p>
+          <input type="email" name="inputEmail">
+          <p><i class='bx bxs-lock'></i> Password</p>
+          <input type="password" name="password">
+          <p><i class='bx bxs-lock'></i> Retype Password</p>
+          <input type="password" name="repasswd">
+          <p>Select your Gender</p>
+            <input type="radio" id="1" name="gender" value="Male">
+            <label for="1"><i class='bx bx-male'></i> Male</label><br>
+            <input type="radio" id="2" name="gender" value="Female">
+            <label for="2"><i class='bx bx-female'></i> Female</label>
+            <p></p>
+          <input type="checkbox" name="terms"> I agree with terms<br>
+          <input type="checkbox"> I want newsletter<br><br>
+          <input type="button" value='Register' class="btn">
+        </form>
+      </div>
+    </div>
+    <script src="dist/bundle.js" defer></script>
+  </body>
+</html>
